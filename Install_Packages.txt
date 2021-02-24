@@ -1,0 +1,5 @@
+tar xvfz Person.tar.gz
+cd Person
+perl Makefile.PL
+make
+make install
