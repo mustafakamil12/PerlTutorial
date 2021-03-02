@@ -16,7 +16,8 @@ my $has1 = {'a'=>1,'b'=>2};
 my $has2 = {'a'=>1,'b'=>2,'c'=>[1,2],'d'=>{'x'=>3,'y'=>4}}; 
 
 # using arrow operator 
-print "$arr1->[0]\n"; 
+print "using arrow operator: $arr1->[0]\n"; 
+print "using regular reference expression: @$arr1[0]\n";
 #print "$arr1[0]\n";
 print "$arr2->[1]\n"; 
 print "$arr2->[2][0]\n"; 
