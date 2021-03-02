@@ -11,6 +11,8 @@ $var_names = "Larry,David,Roger,Ken,Michael,Tom";
 $string1 = join('-', @string);
 $string2 = join(',', @names);
 
+print "@string\n";
+print "@names\n";
 print "$string1\n";
 print "$string2\n"; 
 

@@ -5,4 +5,4 @@ print "Before - @nums\n";
 
 #splice @ARRAY, OFFSET [ , LENGTH [ , LIST ] ]
 splice(@nums, 5, 5, 21..25);
-print "After - @nums\n";
+print "After  - @nums\n";
