@@ -13,6 +13,12 @@ sub new {
     return $object;
 }
 
+# The new destructor method, called automatically by Perl
+sub DESTROY {
+    my $self = shift;
+    print "I have been garbage-collected!\n";
+}
+
 sub get_area {
     my $self = shift;
     return $self->{length} * $self->{width};
