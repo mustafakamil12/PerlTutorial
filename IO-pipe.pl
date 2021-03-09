@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-$message = "Testing";
+$message = "Testing Sehll Codes";
 $scripts_dir = '/Users/mustafaalogaidi/Desktop/MyWork/TutorialsPoint-Perl';
 open GFS_ALERT, "| ".$scripts_dir."/gfs_alert";
 print GFS_ALERT $message;

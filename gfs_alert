@@ -1,1 +1,42 @@
-echo "Testing"
+#!/bin/csh -f
+
+#
+# This script emails the input argument to a set of
+# email addresses. It respects a limit so that no
+# more than ten email messages will be sent out
+# per hour.
+#
+
+#
+# To enforce the limit, the script uses a "limit_file"
+# which file contains one line, consisting of the hour of
+# the last email alert and the number of email alerts
+# in that hour. This script will not send emails if
+# this second number gets greater than 10.
+#
+exit  # no more alerting
+
+setenv limit_file $GFS_BASE/alert.count
+
+setenv message "$1"
+
+setenv hour `date -u +%d%H`
+setenv count 0;
+
+if (-r $limit_file) then
+setenv file_hour `cat $limit_file | awk '{print $1}'`
+if ($file_hour == $hour) then
+  setenv count `cat $limit_file | awk '{print $2+1}'`
+endif
+endif
+
+if ($count > 10) then
+  exit
+endif
+
+cat > /tmp/mailmessage
+
+
+cat /tmp/mailmessage | Mail -s "GFS ALERT MESSAGE" gfs_alert
+
+echo $hour" "$count > $limit_file
