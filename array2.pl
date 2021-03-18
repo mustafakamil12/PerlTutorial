@@ -10,7 +10,7 @@ print "@var_abc\n";
 
 print "Size: ",scalar @var_10,"\n";
 print "";
-$mySize = @var_10;
+$mySize = @var_10;    # we assign variable start with @ to variable with $ :)
 $maxIndex = $#var_10;
 print "Size: $mySize\n";
 print "Max Index: $maxIndex\n";

@@ -6,7 +6,9 @@ sub report_error1
 
 sub report_error2
 {
-    print(@_ . "\n"); 
+    print(@_ . "\n");
+    print(@_[0]."\n");    #array Slice
+    print($_[0]."\n");
 
 }
 

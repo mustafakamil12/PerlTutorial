@@ -17,5 +17,6 @@ pop(@coins);
 print "4. \@coins = @coins\n";
 
 # remove one element from the beginning of the array.
-shift(@coins);
+$shiftRes = shift(@coins);
 print "5. \@coins = @coins\n";
+print "6. shift result = $shiftRes\n";
