@@ -14,3 +14,6 @@ $mySize = @var_10;    # we assign variable start with @ to variable with $ :)
 $maxIndex = $#var_10;
 print "Size: $mySize\n";
 print "Max Index: $maxIndex\n";
+print "--------------------\n";
+$var_10[++$#var_10]=100;
+print "@var_10\n";
