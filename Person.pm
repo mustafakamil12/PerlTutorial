@@ -1,9 +1,10 @@
-#!/usr/bin/perl 
+#!/usr/bin/perl
 
 package Person;
 
 sub new {
    my $class = shift;
+   print "\$class =  $class \n";
    my $self = {
       _firstName => shift,
       _lastName  => shift,
