@@ -16,6 +16,7 @@ while ($arg = shift)
    }
    elsif ($arg eq "-cycle")
    {
+       
        $build_cycle = 1;
        $cycle = shift;
    }
