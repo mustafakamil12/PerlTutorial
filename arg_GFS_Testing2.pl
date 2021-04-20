@@ -1,6 +1,10 @@
 #!/usr/bin/perl
 print "before process @ARGV\n";
 
+$arg = shift;
+
+print "\$arg = $arg \n";
+=POD
 while ($arg = shift)
 {
    $arg =~ s/^@// ;
@@ -14,3 +18,4 @@ while ($arg = shift)
      print "if the boolean exp. is False: $arg\n";
    }
 }
+=CUT
