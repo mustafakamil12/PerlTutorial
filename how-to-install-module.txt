@@ -1,0 +1,9 @@
+$ xcode-select --install
+
+$ sudo xcode-select --reset
+
+curl -L http://cpanmin.us | perl - --sudo App::cpanminus
+
+brew install cpanm
+
+sudo cpanm install JSON
