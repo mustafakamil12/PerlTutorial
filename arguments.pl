@@ -3,7 +3,7 @@ print("$test\n");
 
 $arg = "Testing line \n";
 
-print "$arg";
+print "$arg\n";
 
 chomp $arg;
 

@@ -3,6 +3,7 @@
 package Person;
 sub new {
    my $class = shift;
+   print "Hello Mustafa this is \$class = $class \n";
    my $self = {
       _firstName => shift,
       _lastName  => shift,
