@@ -2,6 +2,7 @@ use FindBin qw($Bin);   # Find directory where this script was executed.
 use lib "$Bin/";     # Add library directory to lib path.
 use strict;
 use GFS_time;
+use Data::Dumper;
 
 my $bin_dir = "/data/gfs/v10/bin";
 my $fcst_dir = "/Users/mustafaalogaidi/Desktop/TWC/Perl_Main_Script";
@@ -24,7 +25,17 @@ my $dd = $today->as_text("%d");
 my $yyyymmdd = $yyyy . $mm . $dd;
 my $inputdate = "$yyyy-$mm-$dd";
 
+print Dumper $today;
+print "\$today = $today\n";
+print "\$yyyy = $yyyy\n";
+print "\$mm = $mm\n";
+print "\$dd = $dd\n";
+print "\$yyyymmdd = $yyyymmdd\n";
+print "\$inputdate = $inputdate\n";
+
 my $validtime = new GFS_time("$inputdate 00:00:00");
+print "\$validtime = $validtime\n";
+print Dumper $validtime;
 my $initstring = $today->as_text("%Y") .
 	    "-" . $today->as_text("%m") .
 	    "-" .$today->as_text("%d") .
@@ -32,6 +43,7 @@ my $initstring = $today->as_text("%Y") .
 
 my $param_code = 19;
 my $fcst_source = 3;
+
 
 open FCSTFILE, "<$fcst_file";
 while (<FCSTFILE>)
@@ -71,14 +83,15 @@ for(my $i = 0; $i < $numhours; $i++)
 	"-" . $validtime->as_text("%m") .
 	"-" .$validtime->as_text("%d") .
 	" " . $validtime->as_text("%H:%M:%S");
-  print "\$validstring = $validstring\n";
+
     for(my $s = 0; $s <= $numstations; $s++)
     {
 	# Construct the sql statement
 	my $query = "Insert into official_edits values($id[$s],'$validstring','$initstring',$param_code,$pmsl[$s][$i],$fcst_source);\n";
-  print "\$query = $query\n";
+  #print "\$query = $query\n";
   printf SQLFILE $query;
     }
     $validtime->add_seconds(3600);
+    print "\$validstring = $validstring\n";
 }
 close SQLFILE;
