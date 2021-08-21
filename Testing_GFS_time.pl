@@ -22,3 +22,12 @@ my $initstring = $today->as_text("%Y") .
 
 my $param_code = 19;
 my $fcst_source = 3;
+
+my $cmd  = "Date";
+if (system($cmd) != 0)
+{
+  print "cmd != 0\n";
+}
+else{
+  print "cmd == 0 \n";
+}
