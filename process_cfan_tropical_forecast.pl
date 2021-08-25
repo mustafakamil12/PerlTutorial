@@ -10,16 +10,12 @@ my $is_primary=`/home/gfs/bin/gfs_primary`;
 
 my %params_of = (
 	"15daytcprob_m3" => "15daytcprob_m3",
-	"bydaytcprob_m3" => "bydaytcprob_m3",
-        "bydaytcprob_m1" => "bydaytcprob_m1",
-        "15daytcprob_m1" => "15daytcprob_m1",
+
 	);
 
 my %GFS_prods = (
 	"15daytcprob_m3" => "15DAYTC",
-        "bydaytcprob_m3" => "BYDAYTC",
-        "bydaytcprob_m1" => "BYDAYNCTC",
-	"15daytcprob_m1" => "15DYNCTC",
+
         );
 
 my @models = qw(ECM GFS);
@@ -59,7 +55,74 @@ foreach my $param (@params)
         print"region equal to WNP and \$filename = $filename\n";
       }
 
+      my $url = "https://www.cfanclimate.com/PULL/WSI/$filename";
+      print "\$url = $url\n";
+      print"curl -o /dev/null --silent --max-time 3 -u $login_user:$login_pass --head --write-out '%{http_code}' $url\n";
+      my $status_code = `curl -o /dev/null --silent --max-time 3 -u $login_user:$login_pass --head --write-out '%{http_code}' $url`;
+      print "\$status_code = $status_code\n";
+      my $file_found;
 
+      if ($status_code eq "200")
+      {
+        $file_found = 1;
+      }
+      else
+      {
+        $file_found = 0;
+      }
+
+      print "============================\n";
+      print "start section testing Aug-24\n";
+      print "\$file_found = $file_found\n";
+      print "\$numTries = $numTries\n";
+
+
+      while ($file_found == 0 && $numTries <= 2)
+      {
+
+        print STDERR "The file $filename has not yet arrived, sleeping 1 minute\n";
+        print "will sleep for 60\n";
+        sleep 1;
+        print "curl -o /dev/null --silent --max-time 3 -u $login_user:$login_pass --head --write-out '%{http_code}' $url\n";
+        $status_code = `curl -o /dev/null --silent --max-time 3 -u $login_user:$login_pass --head --write-out '%{http_code}' $url`;
+
+                          if ($status_code eq "200")
+                          {
+                                  $file_found = 1;
+                          }
+
+        $numTries++;
+
+        if ($numTries > 2)
+        {
+          print STDERR "The file $filename has not yet arrived after 60 minutes...moving on\n";
+          $FileNotFound = "no";
+
+          open MAILMSG,"| mail -s \"CFAN Tropical file has not yet arrived after 60 minutes on $HOST\" godric.phoenix\@gmail.com";
+              print MAILMSG "$filename missing on $HOST\n";
+              close MAILMSG;
+
+          next;
+        }
+        print "reach out to the end of first while...\n";
+
+      }# end first while
+
+      next if ($FileNotFound eq "no");
+
+      print "Processing the file $filename\n";
+      my $downloaded = 0;
+      while ($downloaded == 0) {
+        my $err = system("curl -f -o ${data_dir}/${filename} -u ${login_user}:${login_pass} $url");
+            print "\$err = $err\n";
+            $err = $err >> 8;
+            if ($err != 0) {
+                print STDERR "error in getting file $err $url\n";
+                sleep(3);
+            } else {
+                $downloaded = 1;
+            }
+      }
 
 
     }
