@@ -124,6 +124,39 @@ foreach my $param (@params)
             }
       }
 
+      my $product = "${datestr}_${region}_${model}_${params_of{$param}}.nc";
+
+      my $final;
+      if ($region eq "WNP")
+      {
+        $final = "CFANWP${model}${ForecastHour}_${GFS_prods{$param}}";
+      }
+      else
+      {
+        $final = "CFAN${region}${model}${ForecastHour}_${GFS_prods{$param}}";
+                        }
+
+      print "Moving the file $filename to $product\n";
+      system("cp -f $data_dir/$filename $data_dir/$product");
+
+      print "Moving the file $product to $final\n";
+      system("cp -f $data_dir/$product $product_dir/$final");
+
+
+      if ($region eq "ATL")
+      {
+        print "Transferring $data_dir/$product to energy-research\n";
+        if ( $is_primary==1 ) {
+          system("scp $data_dir/$product op\@energy-research1:/archive/real_time/cfan/TCs");
+        }
+      }
+
+      # Send the File
+            system("$GFS_BASE/bin/prod_send.pl -product $final");
+
+            # Archive the Product
+      system("$GFS_BASE/bin/archive_product $product_dir/$final");
+
 
     }
 	}
